@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wayforpay_package/model/pares_model.dart';
 import 'package:flutter_wayforpay_package/model/wayforpay_response.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class VerificationScreen extends StatefulWidget {
   final WayForPayResponse? wayForPayResponse;
@@ -15,7 +14,7 @@ class VerificationScreen extends StatefulWidget {
 }
 
 class _VerificationScreenState extends State<VerificationScreen> {
-  final flutterWebViewPlugin = FlutterWebviewPlugin();
+  final flutterWebViewPlugin = WebView();
   static const String POST_BACK_URL =
       'https://demo.cloudpayments.ru/WebFormPost/GetWebViewData';
 
@@ -38,35 +37,12 @@ class _VerificationScreenState extends State<VerificationScreen> {
     super.initState();
 
     url = buildUrl();
-
-    flutterWebViewPlugin.onUrlChanged.listen((url) {
-      if (url.startsWith('http') &&
-          url.toLowerCase().contains(POST_BACK_URL.toLowerCase())) {
-        flutterWebViewPlugin
-            .evalJavascript(
-                'window.document.getElementsByTagName(\'body\')[0].innerHTML;')
-            .then((value) {
-          var response = value!.replaceAll(r'\n', '');
-          response = response.replaceAll(' ', '');
-          response = response.replaceAll(r'\', '');
-          response = response.substring(1, response.length - 1);
-          var paResModel = paResModelFromJson(response);
-          Navigator.of(context).pop(paResModel);
-        });
-      }
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return WebviewScaffold(
-      url: Uri.dataFromString(url, mimeType: 'text/html').toString(),
-      initialChild: Container(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        child: const Center(
-          child: CircularProgressIndicator(),
-        ),
-      ),
+    return WebView(
+      initialUrl: Uri.dataFromString(url, mimeType: 'text/html').toString(),
     );
   }
 }

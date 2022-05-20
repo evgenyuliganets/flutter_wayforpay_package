@@ -4,14 +4,15 @@ version: 0.0.2
 homepage: https://github.com/dmytroporoshyn/flutter_wayforpay_package
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.16.2 <3.0.0'
 
 dependencies:
-  rxdart: ^0.27.1
+  rxdart: ^0.27.3
+  hive: ^2.1.0
   http: ^0.13.3
-  flutter_webview_plugin: ^0.4.0
   mask_text_input_formatter: ^2.0.0
   crypto: ^3.0.1
+  webview_flutter: ^3.0.4
   flutter:
     sdk: flutter
 
