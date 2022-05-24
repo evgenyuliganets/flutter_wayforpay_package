@@ -138,6 +138,7 @@ class WayForPay {
         merchantTransactionSecureType: merchantTransactionSecureType);
     var wayForPayResponse =
         await wayForPayRepository.fetchWayForPayResponse(wayForPayModel);
+    print(wayForPayResponse.merchantSignature);
     switch (wayForPayResponse.transactionStatus) {
       case TransactionStatus.Approved:
         return wayForPayResponse;

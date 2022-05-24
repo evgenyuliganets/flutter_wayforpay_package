@@ -74,6 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void payManually() {
+    print("INNEr");
     ///Set card user data
     final cardModel = CardModel(
         card: '4242424242424242',
@@ -86,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
     wayForPay
         .makePayment(context,
             cardModel: cardModel,
-            amount: 0.1,
+            amount: 1,
             merchantTransactionSecureType: MerchantTransactionSecureType.AUTO,
             orderReference:
                 'testReference${DateTime.now().microsecondsSinceEpoch}',
@@ -94,6 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
         /// Get payment status
         .then((WayForPayResponse? value) {
+          print("IN");
       /// Check if _wayForPayResponse is not null
       if (value != null) {
         print('reasonCode: ${value.reasonCode}, reason: ${value.reason!}');
