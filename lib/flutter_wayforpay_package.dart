@@ -99,21 +99,24 @@ class WayForPay {
   Future<WayForPayResponse> makePayment(BuildContext context,
       {required CardModel cardModel,
       required dynamic amount,
+      String? merchantSignature,
       String currencyType = CurrencyType.UAH,
       String merchantTransactionSecureType =
           MerchantTransactionSecureType.NON3DS,
       required String orderReference,
       required DateTime orderDate}) async {
-    var merchantSignature = makeSignature(
-        productName: productName!,
-        orderDate: orderDate,
-        amount: amount,
-        currencyType: currencyType,
-        merchantAccount: merchantAccount,
-        merchantDomainName: merchantDomainName,
-        orderReference: orderReference,
-        productCount: productCount!,
-        productPrice: productPrice!);
+    merchantSignature = merchantSignature != null
+        ? merchantSignature
+        : makeSignature(
+            productName: productName!,
+            orderDate: orderDate,
+            amount: amount,
+            currencyType: currencyType,
+            merchantAccount: merchantAccount,
+            merchantDomainName: merchantDomainName,
+            orderReference: orderReference,
+            productCount: productCount!,
+            productPrice: productPrice!);
     var wayForPayModel = WayForPayModel(
         merchantAccount: merchantAccount,
         transactionType: transactionType,
