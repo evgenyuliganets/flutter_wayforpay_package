@@ -15,7 +15,6 @@ class WayforpayProvider {
   /// [wayForPayModel] WayForPayModel
   Future<WayForPayResponse> fetchWayForPayResponse(
       WayForPayModel wayForPayModel) async {
-    print('REQUEST: ${wayForPayModelToJson(wayForPayModel)}');
     final response = await client
         .post(Uri.parse('https://api.wayforpay.com/api'),
             body: wayForPayModelToJson(wayForPayModel))
@@ -23,7 +22,11 @@ class WayforpayProvider {
         .catchError((e) {
       throw Exception('Failed to load post');
     });
-    print('RESPONSE: ${response.body}');
+    print('[------REQUEST: ${response.request.toString()}------]'
+        '\nBody: ${wayForPayModelToJson(wayForPayModel)}');
+    print('[-----RESPONSE: '
+        '\n[-----Headers: {${response.headers.toString()}}-----]'
+        '\n[-----Body: {${response.body}}-----]');
     if (response.statusCode == 200) {
       return wayForPayResponseFromJson(response.body);
     } else {
