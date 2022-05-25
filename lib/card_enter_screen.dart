@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_wayforpay_package/customView/my_text_field.dart';
 import 'package:flutter_wayforpay_package/customView/sq_date_picker.dart';
 import 'package:flutter_wayforpay_package/model/card_model.dart';
@@ -98,19 +97,19 @@ class _CardEnterScreenState extends State<CardEnterScreen> {
         .then((wayForPayResponse) {
       _wayForPayResponse = wayForPayResponse;
       switch (wayForPayResponse.transactionStatus) {
-        case TransactionStatus.Approved:
+        case TransactionStatus.approved:
           setState(() {
             indexStack = 2;
           });
           return wayForPayResponse;
-        case TransactionStatus.InProcessing:
+        case TransactionStatus.inProcessing:
           setState(() {
             indexStack = 3;
             errorText =
                 '${wayForPayResponse.transactionStatus!} ${wayForPayResponse.reasonCode}: ${wayForPayResponse.reason!}';
           });
           return wayForPayResponse;
-        case TransactionStatus.Declined:
+        case TransactionStatus.declined:
           setState(() {
             indexStack = 3;
             errorText =
@@ -244,7 +243,9 @@ class _CardEnterScreenState extends State<CardEnterScreen> {
                                       focusNode: cvvFocusNode,
                                       suffixColor: obscureText
                                           ? Colors.grey
-                                          : Theme.of(context).accentColor,
+                                          : Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
                                       title: 'CVV',
                                       controller: cvvController,
                                       hint: '111',

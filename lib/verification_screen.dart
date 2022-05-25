@@ -14,8 +14,8 @@ class VerificationScreen extends StatefulWidget {
 }
 
 class _VerificationScreenState extends State<VerificationScreen> {
-  final flutterWebViewPlugin = WebView();
-  static const String POST_BACK_URL =
+  final flutterWebViewPlugin = const WebView();
+  static const String postBackUrl =
       'https://demo.cloudpayments.ru/WebFormPost/GetWebViewData';
 
   late String url;
@@ -24,7 +24,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
     return '''<form name='downloadForm' action='${widget.wayForPayResponse!.d3AcsUrl}' method='POST'>
   <input type='hidden' name='PaReq' value='${widget.wayForPayResponse!.d3Pareq}'>
   <input type='hidden' name='MD' value='${widget.wayForPayResponse!.d3Pareq}'>
-  <input type='hidden' name='TermUrl' value='$POST_BACK_URL'>
+  <input type='hidden' name='TermUrl' value='$postBackUrl'>
   </form>
   <script>
   window.onload = submitForm;

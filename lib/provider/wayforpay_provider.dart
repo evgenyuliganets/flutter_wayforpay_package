@@ -31,7 +31,7 @@ class WayforpayProvider {
     }
   }
 
-  /// In case of  [MerchantTransactionSecureType.AUTO], there is initially performed the checking of the card for participation in 3d secure program.
+  /// In case of  [MerchantTransactionSecureType.auto], there is initially performed the checking of the card for participation in 3d secure program.
   /// If the card does not supports 3D Secure  - there will be returned the response  Declined, code 1120, description Authentication unavailable.
   /// If the card supports 3D Secure  verification the system Wayforpay will return the parameters for authentication of the client.
   ///

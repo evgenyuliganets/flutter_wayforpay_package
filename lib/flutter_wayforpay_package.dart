@@ -19,8 +19,8 @@ import 'card_enter_screen.dart';
 class WayForPay {
   /// Transaction type
   ///
-  /// For normal payment processing is used [TransactionType.CHARGE]
-  String transactionType = TransactionType.CHARGE;
+  /// For normal payment processing is used [TransactionType.charge]
+  String transactionType = TransactionType.charge;
 
   /// Merchant account
   ///
@@ -61,14 +61,14 @@ class WayForPay {
   /// Open CardEnterScreen
   ///
   /// [amount] the amount of payment.
-  /// [currencyType] the currency type, default value [CurrencyType.UAH].
-  /// [merchantTransactionSecureType] the transaction secure type, default value [MerchantTransactionSecureType.AUTO].
+  /// [currencyType] the currency type, default value [CurrencyType.uah].
+  /// [merchantTransactionSecureType] the transaction secure type, default value [MerchantTransactionSecureType.auto].
   /// [orderReference] the unique order id, cannot be duplicated, recommend to use uuid.
   /// [orderDate] order date, it can be is past
   Future<WayForPayResponse?> openCardEnterScreen(BuildContext context,
       {required dynamic amount,
-      String currencyType = CurrencyType.UAH,
-      String merchantTransactionSecureType = MerchantTransactionSecureType.AUTO,
+      String currencyType = CurrencyType.uah,
+      String merchantTransactionSecureType = MerchantTransactionSecureType.auto,
       required String orderReference,
       required DateTime orderDate}) async {
     var wayForPayResponse = (await Navigator.push(
@@ -92,22 +92,26 @@ class WayForPay {
   ///
   /// [cardModel] the card model with card data
   /// [amount] the amount of payment.
-  /// [currencyType] the currency type, default value [CurrencyType.UAH].
-  /// [merchantTransactionSecureType] the transaction secure type, default value [MerchantTransactionSecureType.AUTO].
+  /// [currencyType] the currency type, default value [CurrencyType.uah].
+  /// [merchantTransactionSecureType] the transaction secure type, default value [MerchantTransactionSecureType.auto].
   /// [orderReference] the unique order id, cannot be duplicated, recommend to use uuid.
   /// [orderDate] order date, it can be is past.
   Future<WayForPayResponse> makePayment(BuildContext context,
       {required CardModel cardModel,
       required dynamic amount,
+      String? clientFirstName,
+      String? clientLastName,
+      String? clientEmail,
+      String? clientPhone,
+      String? merchantAuthType = 'SimpleSignature',
+      String? clientCountry = 'UKR',
       String? merchantSignature,
-      String currencyType = CurrencyType.UAH,
+      String currencyType = CurrencyType.uah,
       String merchantTransactionSecureType =
-          MerchantTransactionSecureType.NON3DS,
+          MerchantTransactionSecureType.non3DS,
       required String orderReference,
       required DateTime orderDate}) async {
-    merchantSignature = merchantSignature != null
-        ? merchantSignature
-        : makeSignature(
+    merchantSignature = merchantSignature ?? makeSignature(
             productName: productName!,
             orderDate: orderDate,
             amount: amount,
@@ -135,20 +139,26 @@ class WayForPay {
         apiVersion: apiVersion,
         currency: currencyType,
         merchantSignature: merchantSignature,
-        merchantTransactionSecureType: merchantTransactionSecureType);
+        merchantTransactionSecureType: merchantTransactionSecureType,
+        clientPhone: clientPhone,
+        clientFirstName: clientFirstName,
+        clientCountry: clientCountry,
+        clientLastName: clientLastName,
+        merchantAuthType: merchantAuthType,
+        clientEmail: clientEmail);
     var wayForPayResponse =
         await wayForPayRepository.fetchWayForPayResponse(wayForPayModel);
     print(wayForPayResponse.merchantSignature);
     switch (wayForPayResponse.transactionStatus) {
-      case TransactionStatus.Approved:
+      case TransactionStatus.approved:
         return wayForPayResponse;
-      case TransactionStatus.InProcessing:
+      case TransactionStatus.inProcessing:
         if (wayForPayResponse.reasonCode == 5100) {
           return open3dsVerification(context, wayForPayResponse);
         } else {
           return wayForPayResponse;
         }
-      case TransactionStatus.Declined:
+      case TransactionStatus.declined:
         return wayForPayResponse;
       default:
         return wayForPayResponse;
@@ -169,7 +179,7 @@ class WayForPay {
           d3DsMd: wayForPayResponse.d3Md,
           d3DsPares: paResModel.paRes,
           apiVersion: apiVersion,
-          transactionType: TransactionType.COMPLETE_3DS);
+          transactionType: TransactionType.complete3DS);
       return await wayForPayRepository.verify3dsSecure(verifyModel);
     } else {
       throw Exception();

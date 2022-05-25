@@ -55,7 +55,7 @@ class MyTextField extends StatelessWidget {
             child: Text(title,
                 style: TextStyle(
                   fontSize: 14,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                 )),
           ),
           Container(

@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
     wayForPay
         .openCardEnterScreen(context,
             orderDate: DateTime.now(),
-            merchantTransactionSecureType: MerchantTransactionSecureType.AUTO,
+            merchantTransactionSecureType: MerchantTransactionSecureType.auto,
             orderReference: 'testReference',
             amount: 0.1)
 
@@ -82,13 +82,12 @@ class _MyHomePageState extends State<MyHomePage> {
         cardHolder: 'Ivanov Ivan',
         expMonth: '01',
         expYear: '2030');
-
     /// Start payment process
     wayForPay
         .makePayment(context,
             cardModel: cardModel,
             amount: 1,
-            merchantTransactionSecureType: MerchantTransactionSecureType.AUTO,
+            merchantTransactionSecureType: MerchantTransactionSecureType.auto,
             orderReference:
                 'testReference${DateTime.now().microsecondsSinceEpoch}',
             orderDate: DateTime.now())

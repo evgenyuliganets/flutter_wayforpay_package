@@ -7,6 +7,12 @@ String wayForPayModelToJson(WayForPayModel data) => json.encode(data.toJson());
 
 class WayForPayModel {
   WayForPayModel({
+    required this.clientFirstName,
+    required this.clientLastName,
+    required this.clientEmail,
+    required this.clientPhone,
+    required this.clientCountry,
+    required this.merchantAuthType,
     this.transactionType,
     this.merchantAccount,
     this.merchantDomainName,
@@ -35,6 +41,12 @@ class WayForPayModel {
   String? orderReference;
   int? apiVersion;
   int? orderDate;
+  String? merchantAuthType;
+  String? clientFirstName;
+  String? clientLastName;
+  String? clientEmail;
+  String? clientPhone;
+  String? clientCountry;
   dynamic amount;
   String? currency;
   String? card;
@@ -86,6 +98,13 @@ class WayForPayModel {
         productCount: json['productCount'] != null
             ? List<int>.from((json['productCount'] as List).map((x) => x))
             : null,
+        clientFirstName: json['clientFirstName'] as String,
+        clientLastName: json['clientLastName'] as String,
+        clientCountry: json['clientCountry'] as String,
+        clientEmail: json['clientEmail'] as String,
+        clientPhone: json['clientPhone'] as String,
+        merchantAuthType: json['merchantAuthType'] as String,
+        // clientIpAdress: json["clientIpAdress"] as String,
       );
 
   Map<String, dynamic> toJson() => {
@@ -107,5 +126,11 @@ class WayForPayModel {
         'productName': List<String>.from(productName!.map((x) => x)),
         'productPrice': List<dynamic>.from(productPrice!.map((x) => x)),
         'productCount': List<int>.from(productCount!.map((x) => x)),
+        'clientFirstName': clientFirstName,
+        'clientLastName': clientLastName,
+        'clientCountry': clientCountry,
+        'clientEmail': clientEmail,
+        'clientPhone': clientPhone,
+        'merchantAuthType': merchantAuthType,
       };
 }
