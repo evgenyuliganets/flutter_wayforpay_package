@@ -17,6 +17,7 @@ class WayforpayProvider {
   /// [wayForPayModel] WayForPayModel
   Future<WayForPayResponse> fetchWayForPayResponse(
       WayForPayModel wayForPayModel) async {
+    print("MODEL: ${wayForPayModelToJson(wayForPayModel)}");
     final response = await http
         .post(Uri.parse('https://api.wayforpay.com/api'),
             body: wayForPayModelToJson(wayForPayModel))
