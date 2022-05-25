@@ -151,6 +151,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.2"
+  pretty_http_logger:
+    dependency: transitive
+    description:
+      name: pretty_http_logger
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.1"
   rxdart:
     dependency: transitive
     description:

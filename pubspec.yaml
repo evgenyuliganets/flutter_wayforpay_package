@@ -12,6 +12,7 @@ dependencies:
   http: ^0.13.3
   mask_text_input_formatter: ^2.0.0
   crypto: ^3.0.1
+  pretty_http_logger: ^0.2.1
   webview_flutter: ^3.0.4
   flutter:
     sdk: flutter

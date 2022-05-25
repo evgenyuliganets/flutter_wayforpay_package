@@ -2,11 +2,13 @@ import 'package:flutter_wayforpay_package/model/verify_3ds_model.dart';
 import 'package:flutter_wayforpay_package/model/wayforpay_model.dart';
 import 'package:flutter_wayforpay_package/model/wayforpay_response.dart';
 import 'package:flutter_wayforpay_package/utils/types.dart';
-import 'package:http/http.dart';
+import 'package:pretty_http_logger/pretty_http_logger.dart';
 
 class WayforpayProvider {
   /// Client
-  Client client = Client();
+  HttpWithMiddleware http = HttpWithMiddleware.build(middlewares: [
+    HttpLogger(logLevel: LogLevel.BODY),
+  ]);
 
   /// Charge request is used for quick payment making in one action. It is performed within the limits of single-staged pattern.
   ///
@@ -15,18 +17,13 @@ class WayforpayProvider {
   /// [wayForPayModel] WayForPayModel
   Future<WayForPayResponse> fetchWayForPayResponse(
       WayForPayModel wayForPayModel) async {
-    final response = await client
+    final response = await http
         .post(Uri.parse('https://api.wayforpay.com/api'),
             body: wayForPayModelToJson(wayForPayModel))
         .timeout(const Duration(seconds: 10))
         .catchError((e) {
       throw Exception('Failed to load post');
     });
-    print('[------REQUEST: ${response.request.toString()}------]'
-        '\nBody: ${wayForPayModelToJson(wayForPayModel)}');
-    print('[-----RESPONSE: '
-        '\n[-----Headers: {${response.headers.toString()}}-----]'
-        '\n[-----Body: {${response.body}}-----]');
     if (response.statusCode == 200) {
       return wayForPayResponseFromJson(response.body);
     } else {
@@ -42,7 +39,7 @@ class WayforpayProvider {
   /// [verify3dsModel] Verify3DsModel
   Future<WayForPayResponse> verify3dsSecure(
       Verify3DsModel verify3dsModel) async {
-    final response = await client
+    final response = await http
         .post(Uri.parse('https://api.wayforpay.com/api'),
             body: verify3DsModelToJson(verify3dsModel))
         .timeout(const Duration(seconds: 10))
